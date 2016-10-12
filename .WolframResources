@@ -1,0 +1,11 @@
+Resources[
+    Version[1],
+    Java[
+        Directory["javaOutput"],
+        Directory["YAML/Java"]
+    ],
+    ExecutionBuildCommand[""],
+    Paclet[
+        FunctionPaclet[False]
+    ]
+]

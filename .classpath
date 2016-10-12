@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="javaSource"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JLINK_JAR"/>
+	<classpathentry kind="lib" path="C:/Users/bjornson/workspace/MYaml/YAML/Java/snakeyaml-1.16.jar"/>
+	<classpathentry kind="output" path="javaOutput"/>
+</classpath>
