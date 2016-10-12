@@ -10,9 +10,11 @@ available like any other importer.
 tmp = URLSave["https://github.com/zbjornson/MYaml/archive/master.zip"];
 dest = FileNameJoin[{$BaseDirectory, "SystemFiles", "Formats"}];
 Quiet[CreateDirectory[dest]];
-ExtractArchive[tmp, dest];
-RenameDirectory[FileNameJoin[{dest, "MYaml-master"}], FileNameJoin[{dest, "YAML"}]];
+tmpExpanded = CreateDirectory[];
+ExtractArchive[tmp, tmpExpanded];
+CopyDirectory[FileNameJoin[{tmpExpanded, "MYaml-master", "YAML"}], FileNameJoin[{dest, "YAML"}]];
 DeleteFile[tmp];
+DeleteDirectory[tmpExpanded, DeleteContents -> True];
 Print["Installed YAML importer to " <> dest <> ". Please restart Mathematica or the kernel."]
 ```
 
@@ -37,12 +39,13 @@ which is a complete YAML 1.1 processor.
 * *Mathematica* does not have distinct types corresponding to all of the YAML
   collection types (unordered vs. ordered maps, allowing vs. disallowing
   duplicates; sets vs. plain lists). All of the collections are imported as
-  `List`s, and all `List`s are exported as `!!seq` (sequences).
+  `List`s, and (planned) all `List`s are exported as `!!seq` (sequences).
 
 ### Developer Notes
 
 The `YAML` directory is what gets copied to `$[User]BaseDirectory/SystemFiles/Formats`.
-All other files and folders are only needed for testing and building from source.
+All other files and folders are only needed for testing and building from
+source. After building, generate the yaml.jar file using mbuild.jardesc.
 
 ### Extension Detection
 
@@ -52,8 +55,8 @@ properly when placed in the importer source code.
 
 ```Mathematica
 Unprotect[Import];
-Import[name_String, opts___?OptionQ] := 
-  Import[name, "YAML", opts] /; 
+Import[name_String, opts___?OptionQ] :=
+  Import[name, "YAML", opts] /;
    ToLowerCase[FileExtension[name]] === "yaml";
 Protect[Import];
 ```
